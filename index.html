@@ -80,88 +80,90 @@
 <div id="sky"></div>
 
 <script>
-  const sky = document.getElementById('sky');
+const sky = document.getElementById('sky');
 
-  function createCloud(x, y, width, height) {
-    const cloud = document.createElement('div');
-    cloud.className = 'cloud';
-    cloud.style.width = width + 'px';
-    cloud.style.height = height + 'px';
-    cloud.style.left = x + 'px';
-    cloud.style.top = y + 'px';
-    sky.appendChild(cloud);
+function createCloud(x, y, width, height) {
+  const cloud = document.createElement('div');
+  cloud.className = 'cloud';
+  cloud.style.width = width + 'px';
+  cloud.style.height = height + 'px';
+  cloud.style.left = x + 'px';
+  cloud.style.top = y + 'px';
+  sky.appendChild(cloud);
+}
+
+function generateClouds() {
+  document.querySelectorAll('.cloud').forEach(c => c.remove());
+
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const edgeCount = 25;
+
+  for (let i = 0; i < edgeCount; i++) {
+    createCloud(i * (w / edgeCount) - 50, -100, Math.random() * 400 + 200, Math.random() * 150 + 100);
+    createCloud(i * (w / edgeCount) - 50, h - 50, Math.random() * 400 + 200, Math.random() * 150 + 100);
+    createCloud(-100, i * (h / edgeCount) - 50, Math.random() * 150 + 100, Math.random() * 400 + 200);
+    createCloud(w - 50, i * (h / edgeCount) - 50, Math.random() * 150 + 100, Math.random() * 400 + 200);
   }
+}
 
-  function generateClouds() {
-    document.querySelectorAll('.cloud').forEach(c => c.remove());
+generateClouds();
+window.addEventListener('resize', generateClouds);
 
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    const edgeCount = 25;
+// Center image with fog
+const wrapper = document.createElement('div');
+wrapper.id = 'centerImageWrapper';
+const img = document.createElement('img');
+img.src = 'https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png';
+img.id = 'centerImage';
+wrapper.appendChild(img);
+sky.appendChild(wrapper);
 
-    for (let i = 0; i < edgeCount; i++) {
-      createCloud(i * (w / edgeCount) - 50, -100, Math.random() * 400 + 200, Math.random() * 150 + 100);
-      createCloud(i * (w / edgeCount) - 50, h - 50, Math.random() * 400 + 200, Math.random() * 150 + 100);
-      createCloud(-100, i * (h / edgeCount) - 50, Math.random() * 150 + 100, Math.random() * 400 + 200);
-      createCloud(w - 50, i * (h / edgeCount) - 50, Math.random() * 150 + 100, Math.random() * 400 + 200);
-    }
-  }
+// Info cloud (bigger, top-right quadrant)
+function createInfoCloud() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
 
-  generateClouds();
-  window.addEventListener('resize', generateClouds);
+  // Top-right quadrant
+  const minX = w * 0.55;
+  const maxX = w * 0.85;
+  const minY = h * 0.1;
+  const maxY = h * 0.4;
 
-  // Center image with fog
-  const wrapper = document.createElement('div');
-  wrapper.id = 'centerImageWrapper';
-  const img = document.createElement('img');
-  img.src = 'https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png';
-  img.id = 'centerImage';
-  wrapper.appendChild(img);
-  sky.appendChild(wrapper);
+  const x = Math.random() * (maxX - minX) + minX;
+  const y = Math.random() * (maxY - minY) + minY;
 
-  // Separate info cloud (larger and away from center)
-  function createInfoCloud() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+  const cloud = document.createElement('div');
+  cloud.style.position = 'absolute';
+  cloud.style.left = x + 'px';
+  cloud.style.top = y + 'px';
+  cloud.style.width = '400px';
+  cloud.style.padding = '30px';
+  cloud.style.background = 'rgba(255,255,255,0.85)';
+  cloud.style.backdropFilter = 'blur(25px)';
+  cloud.style.borderRadius = '40px';
+  cloud.style.boxShadow = '0 0 70px rgba(255,255,255,0.5)';
+  cloud.style.zIndex = 20;
+  cloud.style.textAlign = 'center';
+  cloud.style.color = '#333';
 
-    let x, y;
-    do {
-      x = Math.random() * (w - 400); // bigger width
-      y = Math.random() * (h - 200); // bigger height
-    } while (Math.abs(x + 200 - w/2) < 200 && Math.abs(y + 100 - h*0.4) < 200); 
-    // ensures it’s not overlapping the center image
+  const title = document.createElement('h2');
+  title.textContent = 'Fully Undetected';
+  title.style.margin = '0 0 15px 0';
+  title.style.fontSize = '24px';
+  title.style.color = '#222';
+  cloud.appendChild(title);
 
-    const cloud = document.createElement('div');
-    cloud.style.position = 'absolute';
-    cloud.style.left = x + 'px';
-    cloud.style.top = y + 'px';
-    cloud.style.width = '400px'; // bigger
-    cloud.style.padding = '30px';
-    cloud.style.background = 'rgba(255,255,255,0.85)';
-    cloud.style.backdropFilter = 'blur(25px)';
-    cloud.style.borderRadius = '40px';
-    cloud.style.boxShadow = '0 0 70px rgba(255,255,255,0.5)';
-    cloud.style.zIndex = 20;
-    cloud.style.textAlign = 'center';
-    cloud.style.color = '#333';
+  const content = document.createElement('p');
+  content.textContent = 'Shielded injection so you can use this during Roblox events.';
+  content.style.margin = '0';
+  content.style.fontSize = '16px';
+  cloud.appendChild(content);
 
-    const title = document.createElement('h2');
-    title.textContent = 'Fully Undetected';
-    title.style.margin = '0 0 15px 0';
-    title.style.fontSize = '24px';
-    title.style.color = '#222';
-    cloud.appendChild(title);
+  document.body.appendChild(cloud);
+}
 
-    const content = document.createElement('p');
-    content.textContent = 'Shielded injection so you can use this during Roblox events.';
-    content.style.margin = '0';
-    content.style.fontSize = '16px';
-    cloud.appendChild(content);
-
-    document.body.appendChild(cloud);
-  }
-
-  createInfoCloud();
+createInfoCloud();
 </script>
 </body>
 </html>
