@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Screen Cloud GUI</title>
+<title>Full Screen Cloud GUI with Info Cloud</title>
 <style>
   html, body {
     margin: 0;
@@ -12,6 +12,7 @@
     height: 100%;
     width: 100%;
     background: #64b5f6;
+    font-family: Arial, sans-serif;
   }
 
   #sky {
@@ -30,10 +31,10 @@
 
   #centerImageWrapper {
     position: absolute;
-    top: 40%; /* slightly higher */
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 25%; /* smaller for full screen */
+    width: 25%;
     height: auto;
     z-index: 10;
     display: flex;
@@ -92,41 +93,71 @@
   }
 
   function generateClouds() {
-    // Clear existing clouds
     document.querySelectorAll('.cloud').forEach(c => c.remove());
 
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const edgeCount = 25; // more clouds for full coverage
+    const edgeCount = 25;
 
     for (let i = 0; i < edgeCount; i++) {
-      // Top clouds
       createCloud(i * (w / edgeCount) - 50, -100, Math.random() * 400 + 200, Math.random() * 150 + 100);
-      // Bottom clouds
       createCloud(i * (w / edgeCount) - 50, h - 50, Math.random() * 400 + 200, Math.random() * 150 + 100);
-      // Left clouds
       createCloud(-100, i * (h / edgeCount) - 50, Math.random() * 150 + 100, Math.random() * 400 + 200);
-      // Right clouds
       createCloud(w - 50, i * (h / edgeCount) - 50, Math.random() * 150 + 100, Math.random() * 400 + 200);
     }
   }
 
-  // Generate clouds initially
   generateClouds();
-
-  // Regenerate clouds on resize for full coverage
   window.addEventListener('resize', generateClouds);
 
-  // Add center image with fog
+  // Center image with fog
   const wrapper = document.createElement('div');
   wrapper.id = 'centerImageWrapper';
-
   const img = document.createElement('img');
   img.src = 'https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png';
   img.id = 'centerImage';
-
   wrapper.appendChild(img);
   sky.appendChild(wrapper);
+
+  // Separate info cloud
+  function createInfoCloud() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    const x = Math.random() * (w - 300);
+    const y = Math.random() * (h - 150);
+
+    const cloud = document.createElement('div');
+    cloud.style.position = 'absolute';
+    cloud.style.left = x + 'px';
+    cloud.style.top = y + 'px';
+    cloud.style.width = '300px';
+    cloud.style.padding = '20px';
+    cloud.style.background = 'rgba(255,255,255,0.8)';
+    cloud.style.backdropFilter = 'blur(20px)';
+    cloud.style.borderRadius = '30px';
+    cloud.style.boxShadow = '0 0 50px rgba(255,255,255,0.4)';
+    cloud.style.zIndex = 20;
+    cloud.style.textAlign = 'center';
+    cloud.style.color = '#333';
+
+    const title = document.createElement('h3');
+    title.textContent = 'Fully Undetected';
+    title.style.margin = '0 0 10px 0';
+    title.style.fontSize = '20px';
+    title.style.color = '#222';
+    cloud.appendChild(title);
+
+    const content = document.createElement('p');
+    content.textContent = 'Shielded injection so you can use this during Roblox events.';
+    content.style.margin = '0';
+    content.style.fontSize = '14px';
+    cloud.appendChild(content);
+
+    document.body.appendChild(cloud);
+  }
+
+  createInfoCloud();
 </script>
 </body>
 </html>
