@@ -1,129 +1,122 @@
-<div id="sky" style="
-  position: relative;
-  width: 1024px;
-  height: 1024px;
-  margin: 0 auto;
-  background: #64b5f6;
-  overflow: hidden;
-">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud GUI</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background: #64b5f6;
+  }
 
-  <style>
-    .cloud {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 50%;
-      filter: blur(80px);
-    }
+  #sky {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 
-    #centerImageWrapper {
-      position: absolute;
-      top: 45%; /* move up a bit */
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 40%;
-      height: auto;
-      z-index: 10;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  .cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    filter: blur(80px);
+  }
 
-    /* fog around the image */
-    #centerImageWrapper::before {
-      content: '';
-      position: absolute;
-      top: -50px;
-      left: -50px;
-      width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.5);
-      filter: blur(60px);
-      border-radius: 50%;
-      z-index: -1;
-    }
+  #centerImageWrapper {
+    position: absolute;
+    top: 45%; /* move image slightly up */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%; /* smaller image for full screen */
+    height: auto;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    /* extra fog at the bottom */
-    #centerImageWrapper::after {
-      content: '';
-      position: absolute;
-      bottom: -50px;
-      left: -50px;
-      width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.4);
-      filter: blur(100px);
-      border-radius: 50%;
-      z-index: -1;
-    }
+  #centerImageWrapper::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+    filter: blur(60px);
+    border-radius: 50%;
+    z-index: -1;
+  }
 
-    #centerImage {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      z-index: 10;
-    }
-  </style>
+  #centerImageWrapper::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.4);
+    filter: blur(100px);
+    border-radius: 50%;
+    z-index: -1;
+  }
 
-  <script>
-    const sky = document.getElementById('sky');
-    const w = sky.clientWidth;
-    const h = sky.clientHeight;
+  #centerImage {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+<div id="sky"></div>
 
-    function createCloud(x, y, width, height) {
-      const cloud = document.createElement('div');
-      cloud.className = 'cloud';
-      cloud.style.width = width + 'px';
-      cloud.style.height = height + 'px';
-      cloud.style.left = x + 'px';
-      cloud.style.top = y + 'px';
-      sky.appendChild(cloud);
-    }
+<script>
+  const sky = document.getElementById('sky');
+  const w = window.innerWidth;
+  const h = window.innerHeight;
 
+  function createCloud(x, y, width, height) {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    cloud.style.width = width + 'px';
+    cloud.style.height = height + 'px';
+    cloud.style.left = x + 'px';
+    cloud.style.top = y + 'px';
+    sky.appendChild(cloud);
+  }
+
+  // Create clouds around edges
+  const edgeCount = 20;
+  for (let i = 0; i < edgeCount; i++) {
     // Top clouds
-    for (let i = 0; i < 15; i++) {
-      const width = Math.random() * 300 + 200;
-      const height = Math.random() * 120 + 80;
-      const x = i * (w / 15) - 50;
-      const y = -50;
-      createCloud(x, y, width, height);
-    }
-
+    createCloud(i * (w / edgeCount) - 50, -50, Math.random() * 300 + 200, Math.random() * 120 + 80);
     // Bottom clouds
-    for (let i = 0; i < 15; i++) {
-      const width = Math.random() * 300 + 200;
-      const height = Math.random() * 120 + 80;
-      const x = i * (w / 15) - 50;
-      const y = h - 70;
-      createCloud(x, y, width, height);
-    }
-
+    createCloud(i * (w / edgeCount) - 50, h - 70, Math.random() * 300 + 200, Math.random() * 120 + 80);
     // Left clouds
-    for (let i = 0; i < 15; i++) {
-      const width = Math.random() * 120 + 80;
-      const height = Math.random() * 300 + 150;
-      const x = -50;
-      const y = i * (h / 15) - 50;
-      createCloud(x, y, width, height);
-    }
-
+    createCloud(-50, i * (h / edgeCount) - 50, Math.random() * 120 + 80, Math.random() * 300 + 150);
     // Right clouds
-    for (let i = 0; i < 15; i++) {
-      const width = Math.random() * 120 + 80;
-      const height = Math.random() * 300 + 150;
-      const x = w - 70;
-      const y = i * (h / 15) - 50;
-      createCloud(x, y, width, height);
-    }
+    createCloud(w - 70, i * (h / edgeCount) - 50, Math.random() * 120 + 80, Math.random() * 300 + 150);
+  }
 
-    // Add center image with fog
-    const wrapper = document.createElement('div');
-    wrapper.id = 'centerImageWrapper';
+  // Add center image with fog
+  const wrapper = document.createElement('div');
+  wrapper.id = 'centerImageWrapper';
 
-    const img = document.createElement('img');
-    img.src = 'https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png';
-    img.id = 'centerImage';
+  const img = document.createElement('img');
+  img.src = 'https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png';
+  img.id = 'centerImage';
 
-    wrapper.appendChild(img);
-    sky.appendChild(wrapper);
-  </script>
-</div>
+  wrapper.appendChild(img);
+  sky.appendChild(wrapper);
+</script>
+</body>
+</html>
+
