@@ -74,10 +74,46 @@
     border-radius: 10px;
     z-index: 10;
   }
+
+  #infoCloud {
+    position: absolute;
+    left: 82%; /* fixed horizontal position */
+    top: 22%;  /* fixed vertical position */
+    width: 400px;
+    padding: 30px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(25px);
+    border-radius: 40px;
+    box-shadow: 0 0 70px rgba(255,255,255,0.5);
+    z-index: 20;
+    text-align: center;
+    color: #333;
+  }
+
+  #infoCloud h2 {
+    margin: 0 0 15px 0;
+    font-size: 24px;
+    color: #222;
+  }
+
+  #infoCloud p {
+    margin: 0;
+    font-size: 16px;
+  }
+
 </style>
 </head>
 <body>
 <div id="sky"></div>
+
+<div id="centerImageWrapper">
+  <img id="centerImage" src="https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png">
+</div>
+
+<div id="infoCloud">
+  <h2>Fully Undetected</h2>
+  <p>Shielded injection so you can use this during Roblox events.</p>
+</div>
 
 <script>
 const sky = document.getElementById('sky');
@@ -109,49 +145,6 @@ function generateClouds() {
 
 generateClouds();
 window.addEventListener('resize', generateClouds);
-
-// Center image with fog
-const wrapper = document.createElement('div');
-wrapper.id = 'centerImageWrapper';
-const img = document.createElement('img');
-img.src = 'https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png';
-img.id = 'centerImage';
-wrapper.appendChild(img);
-sky.appendChild(wrapper);
-
-// Info cloud (fixed position far from center)
-function createInfoCloud() {
-  const cloud = document.createElement('div');
-  cloud.style.position = 'absolute';
-  cloud.style.left = '82%'; // fixed right position
-  cloud.style.top = '22%';  // fixed down position
-  cloud.style.width = '400px';
-  cloud.style.padding = '30px';
-  cloud.style.background = 'rgba(255,255,255,0.85)';
-  cloud.style.backdropFilter = 'blur(25px)';
-  cloud.style.borderRadius = '40px';
-  cloud.style.boxShadow = '0 0 70px rgba(255,255,255,0.5)';
-  cloud.style.zIndex = 20;
-  cloud.style.textAlign = 'center';
-  cloud.style.color = '#333';
-
-  const title = document.createElement('h2');
-  title.textContent = 'Fully Undetected';
-  title.style.margin = '0 0 15px 0';
-  title.style.fontSize = '24px';
-  title.style.color = '#222';
-  cloud.appendChild(title);
-
-  const content = document.createElement('p');
-  content.textContent = 'Shielded injection so you can use this during Roblox events.';
-  content.style.margin = '0';
-  content.style.fontSize = '16px';
-  cloud.appendChild(content);
-
-  document.body.appendChild(cloud);
-}
-
-createInfoCloud();
 </script>
 </body>
 </html>
