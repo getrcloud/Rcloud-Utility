@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cloud GUI</title>
+<title>Full Screen Cloud GUI</title>
 <style>
   html, body {
     margin: 0;
@@ -16,8 +16,8 @@
 
   #sky {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
   }
 
@@ -30,10 +30,10 @@
 
   #centerImageWrapper {
     position: absolute;
-    top: 45%; /* move image slightly up */
+    top: 40%; /* slightly higher */
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30%; /* smaller image for full screen */
+    width: 25%; /* smaller for full screen */
     height: auto;
     z-index: 10;
     display: flex;
@@ -80,8 +80,6 @@
 
 <script>
   const sky = document.getElementById('sky');
-  const w = window.innerWidth;
-  const h = window.innerHeight;
 
   function createCloud(x, y, width, height) {
     const cloud = document.createElement('div');
@@ -93,18 +91,31 @@
     sky.appendChild(cloud);
   }
 
-  // Create clouds around edges
-  const edgeCount = 20;
-  for (let i = 0; i < edgeCount; i++) {
-    // Top clouds
-    createCloud(i * (w / edgeCount) - 50, -50, Math.random() * 300 + 200, Math.random() * 120 + 80);
-    // Bottom clouds
-    createCloud(i * (w / edgeCount) - 50, h - 70, Math.random() * 300 + 200, Math.random() * 120 + 80);
-    // Left clouds
-    createCloud(-50, i * (h / edgeCount) - 50, Math.random() * 120 + 80, Math.random() * 300 + 150);
-    // Right clouds
-    createCloud(w - 70, i * (h / edgeCount) - 50, Math.random() * 120 + 80, Math.random() * 300 + 150);
+  function generateClouds() {
+    // Clear existing clouds
+    document.querySelectorAll('.cloud').forEach(c => c.remove());
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const edgeCount = 25; // more clouds for full coverage
+
+    for (let i = 0; i < edgeCount; i++) {
+      // Top clouds
+      createCloud(i * (w / edgeCount) - 50, -100, Math.random() * 400 + 200, Math.random() * 150 + 100);
+      // Bottom clouds
+      createCloud(i * (w / edgeCount) - 50, h - 50, Math.random() * 400 + 200, Math.random() * 150 + 100);
+      // Left clouds
+      createCloud(-100, i * (h / edgeCount) - 50, Math.random() * 150 + 100, Math.random() * 400 + 200);
+      // Right clouds
+      createCloud(w - 50, i * (h / edgeCount) - 50, Math.random() * 150 + 100, Math.random() * 400 + 200);
+    }
   }
+
+  // Generate clouds initially
+  generateClouds();
+
+  // Regenerate clouds on resize for full coverage
+  window.addEventListener('resize', generateClouds);
 
   // Add center image with fog
   const wrapper = document.createElement('div');
@@ -119,4 +130,3 @@
 </script>
 </body>
 </html>
-
