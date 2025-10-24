@@ -119,39 +119,43 @@
   wrapper.appendChild(img);
   sky.appendChild(wrapper);
 
-  // Separate info cloud
+  // Separate info cloud (larger and away from center)
   function createInfoCloud() {
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    const x = Math.random() * (w - 300);
-    const y = Math.random() * (h - 150);
+    let x, y;
+    do {
+      x = Math.random() * (w - 400); // bigger width
+      y = Math.random() * (h - 200); // bigger height
+    } while (Math.abs(x + 200 - w/2) < 200 && Math.abs(y + 100 - h*0.4) < 200); 
+    // ensures it’s not overlapping the center image
 
     const cloud = document.createElement('div');
     cloud.style.position = 'absolute';
     cloud.style.left = x + 'px';
     cloud.style.top = y + 'px';
-    cloud.style.width = '300px';
-    cloud.style.padding = '20px';
-    cloud.style.background = 'rgba(255,255,255,0.8)';
-    cloud.style.backdropFilter = 'blur(20px)';
-    cloud.style.borderRadius = '30px';
-    cloud.style.boxShadow = '0 0 50px rgba(255,255,255,0.4)';
+    cloud.style.width = '400px'; // bigger
+    cloud.style.padding = '30px';
+    cloud.style.background = 'rgba(255,255,255,0.85)';
+    cloud.style.backdropFilter = 'blur(25px)';
+    cloud.style.borderRadius = '40px';
+    cloud.style.boxShadow = '0 0 70px rgba(255,255,255,0.5)';
     cloud.style.zIndex = 20;
     cloud.style.textAlign = 'center';
     cloud.style.color = '#333';
 
-    const title = document.createElement('h3');
+    const title = document.createElement('h2');
     title.textContent = 'Fully Undetected';
-    title.style.margin = '0 0 10px 0';
-    title.style.fontSize = '20px';
+    title.style.margin = '0 0 15px 0';
+    title.style.fontSize = '24px';
     title.style.color = '#222';
     cloud.appendChild(title);
 
     const content = document.createElement('p');
     content.textContent = 'Shielded injection so you can use this during Roblox events.';
     content.style.margin = '0';
-    content.style.fontSize = '14px';
+    content.style.fontSize = '16px';
     cloud.appendChild(content);
 
     document.body.appendChild(cloud);
