@@ -119,24 +119,12 @@ img.id = 'centerImage';
 wrapper.appendChild(img);
 sky.appendChild(wrapper);
 
-// Info cloud (bigger, far top-right, adjusted down and more right)
+// Info cloud (fixed position far from center)
 function createInfoCloud() {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-
-  // Far top-right quadrant, nudged down and more to the right
-  const minX = w * 0.75;
-  const maxX = w * 0.95;
-  const minY = h * 0.15;
-  const maxY = h * 0.35;
-
-  const x = Math.random() * (maxX - minX) + minX;
-  const y = Math.random() * (maxY - minY) + minY;
-
   const cloud = document.createElement('div');
   cloud.style.position = 'absolute';
-  cloud.style.left = x + 'px';
-  cloud.style.top = y + 'px';
+  cloud.style.left = '82%'; // fixed right position
+  cloud.style.top = '22%';  // fixed down position
   cloud.style.width = '400px';
   cloud.style.padding = '30px';
   cloud.style.background = 'rgba(255,255,255,0.85)';
