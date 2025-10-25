@@ -163,12 +163,11 @@ function generateClouds() {
 generateClouds();
 window.addEventListener('resize', generateClouds);
 
-// Push clouds effect
+// Edge clouds push
 document.addEventListener('mousemove', e => {
   const mouseX = e.clientX;
   const mouseY = e.clientY;
 
-  // Edge clouds push
   clouds.forEach(c => {
     const dx = c.x + c.width/2 - mouseX;
     const dy = c.y + c.height/2 - mouseY;
@@ -186,18 +185,24 @@ document.addEventListener('mousemove', e => {
       c.el.style.top = c.y + 'px';
     }
   });
+});
 
-  // Info clouds tilt effect
-  infoClouds.forEach(cloud => {
+// Info clouds tilt on hover only
+infoClouds.forEach(cloud => {
+  cloud.addEventListener('mousemove', e => {
     const rect = cloud.getBoundingClientRect();
     const cloudX = rect.left + rect.width / 2;
     const cloudY = rect.top + rect.height / 2;
-    const deltaX = mouseX - cloudX;
-    const deltaY = mouseY - cloudY;
+    const deltaX = e.clientX - cloudX;
+    const deltaY = e.clientY - cloudY;
 
-    const rotateX = deltaY / 20; // tilt sensitivity
+    const rotateX = deltaY / 20;
     const rotateY = -deltaX / 20;
     cloud.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+
+  cloud.addEventListener('mouseleave', () => {
+    cloud.style.transform = 'rotateX(0deg) rotateY(0deg)';
   });
 });
 </script>
