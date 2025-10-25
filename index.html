@@ -74,25 +74,27 @@ html, body {
   height: auto;
   border-radius: 10px;
   z-index: 10;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .downloadButton {
-  background: #4CAF50;
+  background: #7CFC00; /* lighter green */
   color: white;
-  font-size: 1vw;
-  min-font-size: 14px;
-  max-font-size: 22px;
-  padding: 15px 30px;
+  font-size: 1.2vw;
+  min-font-size: 16px;
+  max-font-size: 26px;
+  padding: 20px 50px; /* bigger and longer */
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 0 20px #7CFC00, 0 0 40px #7CFC00;
 }
 
 .downloadButton:hover {
-  background: #388E3C;
+  background: #32CD32;
   transform: scale(1.05);
+  box-shadow: 0 0 30px #32CD32, 0 0 50px #32CD32;
 }
 
 .infoCloud {
