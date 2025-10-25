@@ -77,24 +77,25 @@ html, body {
   margin-bottom: 30px;
 }
 
+/* Download button */
 .downloadButton {
-  background: #7CFC00; /* lighter green */
+  background: #4CAF50; /* darker green */
   color: white;
   font-size: 1.2vw;
   min-font-size: 16px;
   max-font-size: 26px;
-  padding: 20px 50px; /* bigger and longer */
+  padding: 15px 80px; /* wider horizontally */
   border: none;
   border-radius: 30px;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-  box-shadow: 0 0 20px #7CFC00, 0 0 40px #7CFC00;
+  box-shadow: 0 0 20px #4CAF50, 0 0 40px #4CAF50;
 }
 
 .downloadButton:hover {
-  background: #32CD32;
+  background: #3C9F40; /* slightly darker */
   transform: scale(1.05);
-  box-shadow: 0 0 30px #32CD32, 0 0 50px #32CD32;
+  box-shadow: 0 0 30px #3C9F40, 0 0 50px #3C9F40;
 }
 
 .infoCloud {
@@ -204,7 +205,6 @@ function generateClouds() {
 generateClouds();
 window.addEventListener('resize', generateClouds);
 
-// Edge clouds push
 document.addEventListener('mousemove', e => {
   const mouseX = e.clientX;
   const mouseY = e.clientY;
@@ -228,7 +228,6 @@ document.addEventListener('mousemove', e => {
   });
 });
 
-// Info clouds tilt on hover
 infoClouds.forEach(cloud => {
   cloud.addEventListener('mousemove', e => {
     const rect = cloud.getBoundingClientRect();
