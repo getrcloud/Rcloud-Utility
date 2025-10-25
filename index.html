@@ -3,28 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Cloud GUI</title>
+<title>Dynamic Cloud GUI</title>
 <style>
 html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  height: 100%;
   width: 100%;
+  height: 100%;
   background: #64b5f6;
   font-family: Arial, sans-serif;
 }
 
 #sky {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
 .cloud {
   position: absolute;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255,255,255,0.7);
   border-radius: 50%;
   filter: blur(40px);
   transition: left 0.05s, top 0.05s;
@@ -35,39 +35,37 @@ html, body {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 25%;
-  max-width: 350px;
-  height: auto;
+  width: 20%;
+  max-width: 400px;
+  min-width: 180px;
   z-index: 10;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#centerImageWrapper::before {
+#centerImageWrapper::before,
+#centerImageWrapper::after {
   content: '';
   position: absolute;
-  top: -50px;
-  left: -50px;
   width: 100%;
   height: 100%;
-  background: rgba(255,255,255,0.5);
-  filter: blur(60px);
   border-radius: 50%;
   z-index: -1;
 }
 
+#centerImageWrapper::before {
+  top: -50px;
+  left: -50px;
+  background: rgba(255,255,255,0.5);
+  filter: blur(60px);
+}
+
 #centerImageWrapper::after {
-  content: '';
-  position: absolute;
   bottom: -50px;
   left: -50px;
-  width: 100%;
-  height: 100%;
   background: rgba(255,255,255,0.4);
   filter: blur(100px);
-  border-radius: 50%;
-  z-index: -1;
 }
 
 #centerImage {
@@ -79,8 +77,9 @@ html, body {
 
 .infoCloud {
   position: absolute;
-  width: 300px;
-  max-width: 90%;
+  width: 25%;
+  max-width: 400px;
+  min-width: 200px;
   padding: 20px;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(25px);
@@ -95,13 +94,17 @@ html, body {
 
 .infoCloud h2 {
   margin: 0 0 10px 0;
-  font-size: 20px;
+  font-size: 1.2vw;
+  min-font-size: 16px;
+  max-font-size: 24px;
   color: #222;
 }
 
 .infoCloud p {
   margin: 0;
-  font-size: 14px;
+  font-size: 0.9vw;
+  min-font-size: 12px;
+  max-font-size: 18px;
 }
 </style>
 </head>
@@ -112,7 +115,6 @@ html, body {
   <img id="centerImage" src="https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png">
 </div>
 
-<!-- Info clouds -->
 <div class="infoCloud" style="left: 65%; top: 10%;">
   <h2>Fully Undetected</h2>
   <p>Shielded injection so you can use this during Roblox events.</p>
@@ -155,13 +157,14 @@ function generateClouds() {
   const edgeCount = 20;
 
   for (let i = 0; i < edgeCount; i++) {
-    // horizontal top and bottom edges
-    createCloud(i * (w / edgeCount) - 50, -50, Math.min(Math.random() * 150 + 100, w/5), Math.min(Math.random() * 100 + 80, h/5));
-    createCloud(i * (w / edgeCount) - 50, h - 50, Math.min(Math.random() * 150 + 100, w/5), Math.min(Math.random() * 100 + 80, h/5));
+    // clouds scale dynamically with screen
+    const cloudW = Math.min(Math.max(Math.random()*150 + 100, w*0.05), w*0.2);
+    const cloudH = Math.min(Math.max(Math.random()*100 + 80, h*0.05), h*0.15);
 
-    // vertical left and right edges
-    createCloud(-50, i * (h / edgeCount) - 50, Math.min(Math.random() * 100 + 80, w/6), Math.min(Math.random() * 150 + 100, h/5));
-    createCloud(w - 50, i * (h / edgeCount) - 50, Math.min(Math.random() * 100 + 80, w/6), Math.min(Math.random() * 150 + 100, h/5));
+    createCloud(i*(w/edgeCount)-50, -50, cloudW, cloudH);
+    createCloud(i*(w/edgeCount)-50, h-50, cloudW, cloudH);
+    createCloud(-50, i*(h/edgeCount)-50, cloudW*0.7, cloudH*1.2);
+    createCloud(w-50, i*(h/edgeCount)-50, cloudW*0.7, cloudH*1.2);
   }
 }
 
@@ -192,16 +195,16 @@ document.addEventListener('mousemove', e => {
   });
 });
 
-// Info clouds tilt on hover (toward mouse)
+// Info clouds tilt on hover
 infoClouds.forEach(cloud => {
   cloud.addEventListener('mousemove', e => {
     const rect = cloud.getBoundingClientRect();
-    const cloudX = rect.left + rect.width / 2;
-    const cloudY = rect.top + rect.height / 2;
+    const cloudX = rect.left + rect.width/2;
+    const cloudY = rect.top + rect.height/2;
     const deltaX = e.clientX - cloudX;
     const deltaY = e.clientY - cloudY;
 
-    const strength = 2; // stronger tilt
+    const strength = 2;
     const rotateX = -deltaY / 10 * strength;
     const rotateY = deltaX / 10 * strength;
 
