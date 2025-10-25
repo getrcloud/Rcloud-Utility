@@ -87,6 +87,8 @@
     z-index: 20;
     text-align: center;
     color: #333;
+    transition: transform 0.1s;
+    transform-style: preserve-3d;
   }
 
   .infoCloud h2 {
@@ -122,6 +124,7 @@
 <script>
 const sky = document.getElementById('sky');
 const clouds = [];
+const infoClouds = document.querySelectorAll('.infoCloud');
 
 function createCloud(x, y, width, height) {
   const cloud = document.createElement('div');
@@ -160,17 +163,18 @@ function generateClouds() {
 generateClouds();
 window.addEventListener('resize', generateClouds);
 
-// Stronger push effect
+// Push clouds effect
 document.addEventListener('mousemove', e => {
   const mouseX = e.clientX;
   const mouseY = e.clientY;
 
+  // Edge clouds push
   clouds.forEach(c => {
     const dx = c.x + c.width/2 - mouseX;
     const dy = c.y + c.height/2 - mouseY;
     const dist = Math.sqrt(dx*dx + dy*dy);
-    const minDist = 300; // increased range
-    const pushStrength = 100; // increased max movement
+    const minDist = 300;
+    const pushStrength = 100;
 
     if (dist < minDist) {
       const angle = Math.atan2(dy, dx);
@@ -178,10 +182,22 @@ document.addEventListener('mousemove', e => {
       c.el.style.left = c.x + Math.cos(angle) * move + 'px';
       c.el.style.top = c.y + Math.sin(angle) * move + 'px';
     } else {
-      // return to original position
       c.el.style.left = c.x + 'px';
       c.el.style.top = c.y + 'px';
     }
+  });
+
+  // Info clouds tilt effect
+  infoClouds.forEach(cloud => {
+    const rect = cloud.getBoundingClientRect();
+    const cloudX = rect.left + rect.width / 2;
+    const cloudY = rect.top + rect.height / 2;
+    const deltaX = mouseX - cloudX;
+    const deltaY = mouseY - cloudY;
+
+    const rotateX = deltaY / 20; // tilt sensitivity
+    const rotateY = -deltaX / 20;
+    cloud.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   });
 });
 </script>
