@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Screen Cloud GUI with Info Cloud</title>
+<title>Full Screen Cloud GUI with Info Clouds</title>
 <style>
   html, body {
     margin: 0;
@@ -75,10 +75,8 @@
     z-index: 10;
   }
 
-  #infoCloud {
+  .infoCloud {
     position: absolute;
-    left: 1230px; /* slightly more to the right than before */
-    top: 100px;  
     width: 400px;
     padding: 30px;
     background: rgba(255,255,255,0.85);
@@ -90,13 +88,13 @@
     color: #333;
   }
 
-  #infoCloud h2 {
+  .infoCloud h2 {
     margin: 0 0 15px 0;
     font-size: 24px;
     color: #222;
   }
 
-  #infoCloud p {
+  .infoCloud p {
     margin: 0;
     font-size: 16px;
   }
@@ -110,9 +108,16 @@
   <img id="centerImage" src="https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png">
 </div>
 
-<div id="infoCloud">
+<!-- First info cloud -->
+<div class="infoCloud" style="left: 1230px; top: 100px;">
   <h2>Fully Undetected</h2>
   <p>Shielded injection so you can use this during Roblox events.</p>
+</div>
+
+<!-- Second info cloud -->
+<div class="infoCloud" style="left: 150px; top: 200px;">
+  <h2>Smooth Loading</h2>
+  <p>Minimal resource usage when attaching to Roblox.</p>
 </div>
 
 <script>
