@@ -115,6 +115,7 @@ html, body {
   <img id="centerImage" src="https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png">
 </div>
 
+<!-- Info clouds -->
 <div class="infoCloud" style="left: 65%; top: 10%;">
   <h2>Fully Undetected</h2>
   <p>Shielded injection so you can use this during Roblox events.</p>
@@ -123,6 +124,11 @@ html, body {
 <div class="infoCloud" style="left: 10%; top: 25%;">
   <h2>Smooth Loading</h2>
   <p>Minimal resource usage when attaching to Roblox.</p>
+</div>
+
+<div class="infoCloud" style="left: 50%; top: 60%;">
+  <h2>Ultra Performance</h2>
+  <p>Optimized for maximum performance with minimal system resource usage.</p>
 </div>
 
 <script>
@@ -157,7 +163,6 @@ function generateClouds() {
   const edgeCount = 20;
 
   for (let i = 0; i < edgeCount; i++) {
-    // clouds scale dynamically with screen
     const cloudW = Math.min(Math.max(Math.random()*150 + 100, w*0.05), w*0.2);
     const cloudH = Math.min(Math.max(Math.random()*100 + 80, h*0.05), h*0.15);
 
