@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Screen Cloud GUI with Info Clouds</title>
+<title>Interactive Cloud GUI</title>
 <style>
   html, body {
     margin: 0;
@@ -27,6 +27,7 @@
     background: rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     filter: blur(80px);
+    transition: left 0.1s, top 0.1s;
   }
 
   #centerImageWrapper {
@@ -98,7 +99,6 @@
     margin: 0;
     font-size: 16px;
   }
-
 </style>
 </head>
 <body>
@@ -108,13 +108,12 @@
   <img id="centerImage" src="https://i.ibb.co/wFbRFCD2/R-Cloud-24-10-2025.png">
 </div>
 
-<!-- First info cloud -->
+<!-- Info clouds -->
 <div class="infoCloud" style="left: 1230px; top: 100px;">
   <h2>Fully Undetected</h2>
   <p>Shielded injection so you can use this during Roblox events.</p>
 </div>
 
-<!-- Second info cloud -->
 <div class="infoCloud" style="left: 250px; top: 250px;">
   <h2>Smooth Loading</h2>
   <p>Minimal resource usage when attaching to Roblox.</p>
@@ -122,6 +121,7 @@
 
 <script>
 const sky = document.getElementById('sky');
+const clouds = [];
 
 function createCloud(x, y, width, height) {
   const cloud = document.createElement('div');
@@ -131,10 +131,19 @@ function createCloud(x, y, width, height) {
   cloud.style.left = x + 'px';
   cloud.style.top = y + 'px';
   sky.appendChild(cloud);
+
+  clouds.push({
+    el: cloud,
+    x: x,
+    y: y,
+    width: width,
+    height: height
+  });
 }
 
 function generateClouds() {
-  document.querySelectorAll('.cloud').forEach(c => c.remove());
+  clouds.forEach(c => c.el.remove());
+  clouds.length = 0;
 
   const w = window.innerWidth;
   const h = window.innerHeight;
@@ -150,6 +159,30 @@ function generateClouds() {
 
 generateClouds();
 window.addEventListener('resize', generateClouds);
+
+// Push effect
+document.addEventListener('mousemove', e => {
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
+
+  clouds.forEach(c => {
+    const dx = c.x + c.width/2 - mouseX;
+    const dy = c.y + c.height/2 - mouseY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const minDist = 150; // distance at which clouds start moving away
+
+    if (dist < minDist) {
+      const angle = Math.atan2(dy, dx);
+      const move = (minDist - dist) / 2; // push strength
+      c.el.style.left = c.x + Math.cos(angle) * move + 'px';
+      c.el.style.top = c.y + Math.sin(angle) * move + 'px';
+    } else {
+      // return to original position
+      c.el.style.left = c.x + 'px';
+      c.el.style.top = c.y + 'px';
+    }
+  });
+});
 </script>
 </body>
 </html>
