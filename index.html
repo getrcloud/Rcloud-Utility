@@ -5,102 +5,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interactive Cloud GUI</title>
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-    background: #64b5f6;
-    font-family: Arial, sans-serif;
-  }
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  background: #64b5f6;
+  font-family: Arial, sans-serif;
+}
 
-  #sky {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-  }
+#sky {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  .cloud {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 50%;
-    filter: blur(80px);
-    transition: left 0.05s, top 0.05s;
-  }
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  filter: blur(80px);
+  transition: left 0.05s, top 0.05s;
+}
 
-  #centerImageWrapper {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 25%;
-    height: auto;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+#centerImageWrapper {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  height: auto;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  #centerImageWrapper::before {
-    content: '';
-    position: absolute;
-    top: -50px;
-    left: -50px;
-    width: 100%;
-    height: 100%;
-    background: rgba(255,255,255,0.5);
-    filter: blur(60px);
-    border-radius: 50%;
-    z-index: -1;
-  }
+#centerImageWrapper::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.5);
+  filter: blur(60px);
+  border-radius: 50%;
+  z-index: -1;
+}
 
-  #centerImageWrapper::after {
-    content: '';
-    position: absolute;
-    bottom: -50px;
-    left: -50px;
-    width: 100%;
-    height: 100%;
-    background: rgba(255,255,255,0.4);
-    filter: blur(100px);
-    border-radius: 50%;
-    z-index: -1;
-  }
+#centerImageWrapper::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.4);
+  filter: blur(100px);
+  border-radius: 50%;
+  z-index: -1;
+}
 
-  #centerImage {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    z-index: 10;
-  }
+#centerImage {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  z-index: 10;
+}
 
-  .infoCloud {
-    position: absolute;
-    width: 400px;
-    padding: 30px;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(25px);
-    border-radius: 40px;
-    box-shadow: 0 0 70px rgba(255,255,255,0.5);
-    z-index: 20;
-    text-align: center;
-    color: #333;
-    transition: transform 0.1s;
-    transform-style: preserve-3d;
-  }
+.infoCloud {
+  position: absolute;
+  width: 400px;
+  padding: 30px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(25px);
+  border-radius: 40px;
+  box-shadow: 0 0 70px rgba(255,255,255,0.5);
+  z-index: 20;
+  text-align: center;
+  color: #333;
+  transition: transform 0.1s;
+  transform-style: preserve-3d;
+}
 
-  .infoCloud h2 {
-    margin: 0 0 15px 0;
-    font-size: 24px;
-    color: #222;
-  }
+.infoCloud h2 {
+  margin: 0 0 15px 0;
+  font-size: 24px;
+  color: #222;
+}
 
-  .infoCloud p {
-    margin: 0;
-    font-size: 16px;
-  }
+.infoCloud p {
+  margin: 0;
+  font-size: 16px;
+}
 </style>
 </head>
 <body>
@@ -187,7 +187,7 @@ document.addEventListener('mousemove', e => {
   });
 });
 
-// Info clouds tilt on hover only
+// Info clouds tilt on hover (corrected)
 infoClouds.forEach(cloud => {
   cloud.addEventListener('mousemove', e => {
     const rect = cloud.getBoundingClientRect();
@@ -196,8 +196,10 @@ infoClouds.forEach(cloud => {
     const deltaX = e.clientX - cloudX;
     const deltaY = e.clientY - cloudY;
 
-    const rotateX = deltaY / 20;
-    const rotateY = -deltaX / 20;
+    const strength = 1.5; // stronger tilt
+    const rotateX = -deltaY / 10 * strength;
+    const rotateY = deltaX / 10 * strength;
+
     cloud.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   });
 
